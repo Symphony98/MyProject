@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>回退</button>
+    <div class="container">
+        <!-- <img src="./../img/21.jpg" alt=""> -->
+    </div>
+</body>
+<script>
+    function $(e) {return document.querySelector(e)}
+    function c(e) {return document.createElement(e)}
+
+    $("button").onclick = function(){
+        history.go(-1)
+    }
+    let res = localStorage.getItem("txt")
+    // $("#txt").innerText = s
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    window.onload = function () {
+        let url = "http://10.0.6.228/week8/api/get_product_bycategory.php"
+        let str = `product_category=${res}`
+        ajax_get(url, str).then(function (res) {
+            // console.log(res);
+            let json = JSON.parse(res)
+            console.log(json);
+            creat_table(json)
+        })
+    }
+
+    let creat_table = function (arr) {
+        $(".container").innerHTML = ""
+        for (let item of arr) {
+            let div = c("div")
+            div.innerHTML = `
+            <p>${item.product_id}</p>
+            <p>${item.product_name}</p>
+            <p>${item.product_price}</p>
+            <p>${item.product_num}</p>
+            <img src = "http://10.0.6.228/week8/img/${item.product_img_path}" />
+            <p>${item.product_category}</p>
+        `
+            let btn = c("p")
+            let add = c("input")
+            add.type = "button"
+            add.value = "加入购物车"
+            add.className = "btn btn-primary"
+            btn.appendChild(add)
+            add.onclick = function () {
+                console.log(item.id);
+            }
+            div.appendChild(btn)
+            $(".container").appendChild(div)
+        }
+    }
+</script>
+</html>

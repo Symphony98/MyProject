@@ -1,0 +1,68 @@
+//公共部分
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+img{
+    display: block;
+}
+html{
+    font-size: 15.625vw;
+    height: 100%;
+}
+body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ccc;
+}
+//头部
+header{
+    height: .78rem;
+    display: flex;
+  
+     .a1{
+         height: .4rem;
+         width: .4rem;
+        margin:.15rem .1rem 0 .15rem ;
+        .header_left{
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+          display: block;
+           background: url(../imgs/小图标/k.png) no-repeat;
+           background-size:cover
+        }
+     }
+
+     
+        .header_mid{
+            padding-left: .4rem;
+            height: .52rem;
+            width: 4.3rem;
+            margin-top:.1rem;
+            margin-right: .15rem;
+            border-radius: .1rem;
+           border: none;
+           background: #eee;
+        }
+     
+     
+        .a3{
+            display: flex;
+            .header_right{
+                height: .52rem;
+                width: .52rem;
+                border-radius: .1rem;
+                border:none;
+                margin-top: .1rem;
+            }
+        } 
+    
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <table class="table table-bordered">
+            <caption  style="text-align: center;"><h1>个人中心</h1></caption>
+            <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>手机号</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    let $ = ele => {return document.querySelector(ele)}
+    let c = ele => {return document.createElement(ele)}
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    window.onload = function () {
+        let url = "http://10.0.6.228/week8/api/get_user.php"
+        ajax_get(url).then(function (res) {
+            let json = JSON.parse(res)
+            // console.log(json);
+            creat_table(json)
+        })
+    }
+
+    let creat_table = function (arr) {
+        $("#tb").innerHTML = ""
+        for (let item of arr) {
+            let tr = c("tr")
+            tr.innerHTML = `
+            <td>${item.user_name}</td>
+            <td>${item.user_pwd}</td>
+            <td>${item.user_phone}</td>
+        `
+        $("#tb").appendChild(tr)
+        }
+    }
+</script>
+</html>

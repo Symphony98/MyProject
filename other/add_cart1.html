@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+    </div>
+</body>
+<script>
+    let $ = ele => { return document.querySelector(ele) }
+    let c = ele => { return document.createElement(ele) }
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    let ajax_post = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhr.send(data)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    window.onload = function () {
+        let url = "http://10.0.6.228/week8/api/get_product_bycategory.php"
+        let str = "product_category=男友"
+        ajax_get(url, str).then(function (res) {
+            // console.log(res);
+            let json = JSON.parse(res)
+            console.log(json);
+            creat_table(json)
+        })
+    }
+
+    let creat_table = function (arr) {
+        $(".container").innerHTML = ""
+        for (let item of arr) {
+            let div = c("div")
+            div.innerHTML = `
+            <p>${item.product_id}</p>
+            <p>${item.product_name}</p>
+            <p>${item.product_price}</p>
+            <p>${item.product_num}</p>
+            <img src = "http://10.0.6.228/week8/img/${item.product_img_path}" />
+            <p>${item.product_category}</p>
+        `
+            let btn = c("p")
+            let add = c("input")
+            add.type = "button"
+            add.value = "加入购物车"
+            add.className = "btn btn-primary"
+            btn.appendChild(add)
+            add.onclick = function () {
+                // console.log(item);
+                let url = "http://localhost/week8/api/add_cart.php"
+                let s = "product_number=1"
+                let str = `product_id=${item.product_id}&product_name=${item.product_name}&product_price=${item.product_price}&product_num=${item.product_num}&product_img_path=${item.product_img_path}&product_category=${item.product_category}&${s}`                
+                ajax_post(url, str).then(function (res) {
+                    // console.log(res);
+                    let json = JSON.parse(res)
+                    if (json.ok) {
+                        alert("添加到购物车成功")
+                    } else {
+                        alert("添加到购物车失败")
+                    }
+                })
+            }
+            div.appendChild(btn)
+            $(".container").appendChild(div)
+        }
+    }
+
+</script>
+
+</html>

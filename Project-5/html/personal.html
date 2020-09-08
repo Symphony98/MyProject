@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蘑菇头</title>
+    <style>
+        .container{
+            position: relative;
+        }
+        .return{
+            position: absolute;
+            top:0rem;
+            left: 0rem;
+        }
+    </style>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        
+        <table class="table">
+            <caption class="text-center"><h3>个人中心</h3>
+            </caption> 
+            
+            <thead>
+                
+                <tr>
+                    <td>姓名</td>
+                    <td>密码</td>
+                    <td>电话</td>
+                </tr>
+            </thead>
+            <tbody id="tb">
+            </tbody>
+        </table>
+        <h2 class="return">&lt;</h2>
+
+    </div>
+</body>
+<script>
+    function $(ele){ return document.querySelector(ele) }
+    function c(ele){ return document.createElement(ele) }
+    function ajax_get(url){
+	    return new Promise((resolve,reject)=>{
+		    let xhr = new XMLHttpRequest()
+		    xhr.open("get",url,true)
+		    xhr.send()
+		    xhr.onreadystatechange = ()=>{
+			    if( xhr.readyState === 4 && xhr.status === 200 ){
+				    resolve(xhr.responseText)
+			    }
+		    }
+	    })
+    }
+
+    ajax_get("http://10.0.6.228/week8/api/get_user.php").then(res=>{
+	    let data = JSON.parse(res)
+	    create_table( data )
+	    console.log( data )
+    })
+
+    function create_table(arr){
+	    $("#tb").innerHTML = ""
+	    for( let ele of arr ){
+		    let tr = c("tr")
+		    tr.innerHTML = `
+			    <td>${ ele.user_name } </td>
+			    <td>${ ele.user_pwd }</td>
+                <td>${ ele.user_phone}</td>
+		    `   
+		    $("#tb").appendChild(tr)
+    	    }
+    }
+    $(".return").onclick=function(){
+        history.back()
+    }
+</script>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蘑菇头</title>
+    <style>
+        *{
+            margin: 0rem;
+            padding: 0rem;
+        }
+        .header{
+            position: relative;
+        }
+        .return{
+            position: absolute;
+            left: 0rem;
+            top: -0.3rem;
+        }
+        .btn-btn{
+            position: relative;
+        }
+        .btn{
+            position: absolute;
+            left: 40%;
+            top: 0rem;
+        }
+    </style>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <script>
+        let clientWidth=document.documentElement.clientWidth
+        let html=document.querySelector('html')
+        html.style.fontSize=clientWidth/20.7+'px'
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 class="text-center">注册</h2>
+            <h2 class="return">&lt;</h2>
+        </div>
+        <form action="">
+            <div class="form-group">
+                <label for="">用户名</label>
+                <input type="text" class="form-control" id="username">
+            </div>
+            <div class="form-group">
+                <label for="">密码</label>
+                <input type="text" class="form-control" id="user_pwd">
+            </div>
+            <div class="form-group">
+                <label for="">手机号</label>
+                <input type="text" class="form-control" id="user_num">
+            </div>
+            <div class="btn-btn">
+                <input type="button" class="btn btn-primary" value="注册" id="btn">
+            </div>
+            
+        </form>    
+    </div>
+</body>
+<script>
+        function $(selector){
+        let ele=null
+        if(selector[0]==="#"){
+            ele=document.querySelector(selector)
+        }else{
+            ele=document.querySelectorAll(selector)
+        }
+        return ele
+    }
+    let username=$("#username").value
+    let user_pwd=$("#user_pwd").value
+    let user_num=$("#user_num").value
+    let btn=$("#btn")
+    $("#btn").onclick = function(){
+        let str = `http://10.0.6.228/week8/api/add_user.php`
+        let xhr = new XMLHttpRequest()
+        xhr.open("post",str,true)
+        xhr.setRequestHeader("content-type","application/x-www-form-urlencoded")
+        xhr.send(`username=${username}&user_pwd=${user_pwd}&user_num=${user_num}`)
+        xhr.onreadystatechange = function(){
+            if( this.readyState === 4 && this.status === 200 ){
+                let json=JSON.parse(xhr.responseText)
+                if( json.ok ){
+                    alert("注册成功")
+                }else{
+                    alert("注册失败")
+                }
+            }
+        }
+    }
+    $(".return")[0].onclick=function(){
+        history.back()
+    }
+</script>
+</html>

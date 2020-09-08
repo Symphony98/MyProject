@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    html{
+        font-size: 13.33333333333333333vw;
+        background-color: #ccc;
+    }
+    #header{
+	  height: .66rem;
+      display:flex;
+      justify-content: space-around;
+      padding-top: .2rem;
+    }
+    p{
+        height: .66rem;
+        font-size: .5rem;
+        line-height: .66rem;
+    }
+    #txt{
+        width: 5.6rem;
+        height:.58rem;
+        background-color: honeydew;
+        border:.01rem solid grey;
+    }
+    #btn{
+        width: 1rem;
+        height: .60rem;
+        background-color: #ccc;
+        border: .01rem solid grey;
+        font-size: .32rem;
+    }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <p>&lt</p>
+        <input type="text" id="txt">
+        <input type="button" id="btn" value="搜索">
+    </div>
+</body>
+<script>
+    function $(e) {return document.querySelector(e)}
+    function c(e) {return document.createElement(e)}
+
+    if(!localStorage.getItem("txt")){
+        localStorage.setItem("txt","")
+    }
+
+    $("#btn").onclick = function(){
+        let txt = $("#txt").value
+        let s = localStorage.getItem("txt")
+        s = txt
+        localStorage.setItem("txt",s)
+        location.href = "./serach_res.html"
+    }
+</script>
+</html>

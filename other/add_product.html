@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <form action="#">
+            <div class="form-group">
+                <label for="">商品名称</label>
+                <input type="text" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">商品价格</label>
+                <input type="text" id="price" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">商品数量</label>
+                <input type="text" id="num" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">图片路径</label>
+                <input type="text" id="img" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">商品类别</label>
+               <select name="" id="category">
+                   <option value="0">请选择类别</option>
+                   <option value="上衣">上衣</option>
+                   <option value="裤子">裤子</option>
+                   <option value="裙子">裙子</option>
+                   <option value="男友">男友</option>
+               </select>
+            </div>
+            <div class="form-group">
+                <input type="button" value="提交" class="btn btn-primary" id="btn">
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    function $(ele) { return document.querySelector(ele) }
+    function c(ele) { return document.createElement(ele) }
+
+    let product_category = ""
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    let ajax_post = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhr.send(data)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+    $("#category").onchange = function(){
+        if(this.value === "0"){            
+            return
+        } 
+        product_category = this.value
+    }
+    $("#btn").onclick = function () {
+        if(product_category === "") {
+            alert("请选择正确的类别")            
+            return
+        }
+        let url = "http://10.0.6.228/week8/api/add_product.php"
+        let str = `product_name=${$("#name").value}&product_price=${$("#price").value}&product_num=${$("#num").value}&product_img_path=${$("#img").value}&product_category=${$("#category").value}`
+        ajax_post(url, str).then(function (res) {
+            // console.log(res);
+            let json = JSON.parse(res)
+            if (json.ok) {
+                alert("数据添加成功")
+            } else {
+                alert("数据添加失败")
+            }
+        })
+        $("form").reset()
+    }
+</script>
+
+</html>

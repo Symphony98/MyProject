@@ -1,0 +1,209 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .box {
+        width: 450px;
+        position: relative;
+        margin: 30px;
+    }
+
+    .box>.img {
+        width: 450px;
+        height: 450px;
+        border: 1px solid #333;
+        position: relative;
+    }
+
+    .box>.img>.mask {
+        width: 200px;
+        height: 200px;
+        background-color: yellow;
+        opacity: .4;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: none;
+    }
+
+    .box>ul {
+        display: flex;
+        list-style: none;
+        margin-top: 10px;
+    }
+
+    .box>ul>li {
+        width: 54px;
+        height: 54px;
+        border: 1px solid #333;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .box>ul>li.active {
+        border-color: red;
+    }
+
+    .box .enlarge {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: 0;
+        left: 101%;
+        background: url(./imgs/1.big.jpg) no-repeat;
+        background-size: 800px 800px;
+        background-position: 0 0;
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="img">
+            <img src="./imgs/1.jpg" alt="" />
+            <div class="mask"></div>
+        </div>
+        <ul>
+            <li class="active">
+                <img src="./imgs/1.small.jpg" alt="">
+            </li>
+            <li>
+                <img src="./imgs/2.small.jpg" alt="">
+            </li>
+        </ul>
+        <div class="enlarge"></div>
+    </div>
+</body>
+<script>
+    class enlarge {
+        constructor(el) {
+            this.el = document.querySelector(el)
+            this.bigImg = this.el.querySelector('.img')
+            this.mask = this.el.querySelector(".mask")
+            this.enlarge = this.el.querySelector(".enlarge")
+
+            this.init()
+        }
+        // 初始化函数
+        init() {
+            this.enlargeMoveIn()
+            this.enlargeSetWH()
+            this.maskMove()
+            this.enlargeSetBg()
+        }
+        // 鼠标移动到盒子上（1-显示遮罩，2-显示放大镜）
+        enlargeMoveIn() {
+            // es5写法，事件函数中的this指向事件源，我们在事件函数中的mask，enlage是保存在构造器中的
+            let _this = this        // this 实例对象
+            this.bigImg.addEventListener('mouseover', function () {
+                _this.mask.style.display = 'block'
+                _this.enlarge.style.display = 'block'
+            }, false)
+
+            this.bigImg.addEventListener('mouseout', function () {
+                _this.mask.style.display = 'none'
+                _this.enlarge.style.display = 'none'
+            }, false)
+        }
+        // 设置放大镜的尺寸
+        /*
+            放大镜【盒子尺寸】       遮罩层尺寸（黄色）
+            ---------------    =    --------------
+            放大镜【背景尺寸】       bigImg盒子尺寸
+        放大镜【盒子尺寸】 * bigImg盒子尺寸 = 遮罩层尺寸（黄色） * 放大镜【背景尺寸】
+        放大镜【盒子尺寸】 = 遮罩层尺寸（黄色） * 放大镜【背景尺寸】 / bigImg盒子尺寸 
+        */  
+        enlargeSetWH() {
+            // 获取遮罩层的宽高
+            let maskW = parseFloat(this.getStyle(this.mask, 'width'))
+            let maskH = parseFloat(this.getStyle(this.mask, 'height'))
+            // 获取bigImg盒子尺寸
+            let bigImgW = parseFloat(this.getStyle(this.bigImg, 'width'))
+            let bigImgH = parseFloat(this.getStyle(this.bigImg, 'height'))
+            // 获取放大镜背景图的尺寸
+            let enlargeW = parseFloat(this.getStyle(this.enlarge, 'background-size').split(' ')[0])
+            let enlargeH = parseFloat(this.getStyle(this.enlarge, 'background-size').split(' ')[1])
+            // 公式：
+            let w = maskW * enlargeW / bigImgW
+            let h = maskH * enlargeH / bigImgH
+            // 最终
+            this.enlarge.style.width = w + 'px'
+            this.enlarge.style.height = h + 'px'
+        }
+        // 遮罩层移动
+        maskMove() {
+            let _this = this
+            this.bigImg.addEventListener('mousemove', function (ele) {
+                let e = ele || window.event
+                // 获取鼠标的位置，由于clientX是以整个页面的左上角作为（0，0）的顶点
+                // 所以需要减去当前盒子的左边距和上边距，让（0，0）这个点是以盒子的左上角
+                // 作为起点的，并且让遮罩层显示的位置是以鼠标为中心
+                let left = e.clientX - parseFloat(_this.getStyle(_this.el, "margin-left")) - _this.mask.offsetWidth / 2
+                let top = e.clientY - parseFloat(_this.getStyle(_this.el, "margin-top")) - _this.mask.offsetHeight / 2
+                // 如果左边的值和上边的值小于0了，就让left和top值为0
+                if (left < 0) left = 0
+                if (top < 0) top = 0
+                let bigImgW = parseFloat(_this.getStyle(_this.bigImg, 'width'))
+                let bigImgH = parseFloat(_this.getStyle(_this.bigImg, 'height'))
+                let maskW = parseFloat(_this.getStyle(_this.mask, 'width'))
+                let maskH = parseFloat(_this.getStyle(_this.mask, 'height'))
+                if (left > bigImgW - maskW) left = bigImgW - maskW
+                if (top > bigImgH - maskH) top = bigImgH - maskH
+                // 设置mask定位坐标
+                _this.mask.style.left = left + 'px'
+                _this.mask.style.top = top + 'px'
+
+                _this.enlargeSetBg()
+            }, false)
+        }
+        // 背景同步
+        enlargeSetBg()
+        {
+            // 获取参数
+            let enlargeW = this.enlarge.clientWidth
+            let enlargeH= this.enlarge.clientHeight
+            let maskLeft = parseFloat(this.getStyle(this.mask,'left'))
+            let maskTop = parseFloat(this.getStyle(this.mask,'top'))
+            let maskW = this.mask.clientWidth
+            let maskH= this.mask.clientHeight
+
+            /*
+                放大镜背景图移动距离           遮罩层移动距离
+                   ---------------    =      --------------
+                    放大镜盒子尺寸            放大镜背景图移动距离
+            放大镜背景图移动距离 * 遮罩层尺寸 = 放大镜盒子尺寸 * 遮罩层移动距离
+            放大镜背景图移动距离 = 放大镜盒子尺寸 * 遮罩层移动距离  / 遮罩层尺寸
+            */ 
+
+            // 公式 放大镜背景图移动距离 = 放大镜盒子尺寸 * 遮罩层移动距离  / 遮罩层尺寸
+            let bgX = enlargeW * maskLeft  / maskW
+            let bgY = enlargeH * maskTop   / maskH
+
+            // 设置放大镜背景
+            this.enlarge.style.backgroundPosition = `-${bgX}px -${bgY}px`
+        }
+
+        // 根据名称获取样式
+        getStyle(ele, style) {
+            // 语法：window.getComputedStyle(标签对象).属性名
+            // 语法：标签对象.currentStyle.属性名
+            if (window.getComputedStyle) {
+                return window.getComputedStyle(ele)[style]
+            } else {
+                return ele.currentStyle[style]
+            }
+        }
+    }
+
+    let obj = new enlarge('.box')
+</script>
+
+</html>

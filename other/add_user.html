@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <form action="#">
+            <div class="form-group">
+                <label for="">用户名</label>
+                <input type="text" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">密码</label>
+                <input type="text" id="pwd" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">手机号</label>
+                <input type="text" id="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="button" value="提交" class="btn btn-primary" id="btn">
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    function $(ele) { return document.querySelector(ele) }
+    function c(ele) { return document.createElement(ele) }
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    let ajax_post = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("post", url, true)
+            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhr.send(data)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+    $("#btn").onclick = function () {
+        let url = "http://localhost/week8/api/add_user.php"
+        let str = `user_name=${$("#name").value}&user_pwd=${$("#pwd").value}&user_phone=${$("#phone").value}`
+        ajax_post(url, str).then(function (res) {
+            // console.log(res);
+            let json = JSON.parse(res)
+            if (json.ok) {
+                alert("数据添加成功")
+            } else {
+                alert("数据添加失败")
+            }
+        })
+    }
+</script>
+</html>

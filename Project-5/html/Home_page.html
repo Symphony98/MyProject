@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蘑菇头</title>
+</head>
+<link rel="stylesheet" href="../css/home_pag.css">
+<link rel="stylesheet" href="../css/swiper.css">
+<body>
+    <header>
+        <a href="personal.html" class="a4"><span class="header_left"></span></a>
+        <a href="Search_page.html" class="a5"><input type="text" value="搜索" class="header_mid"></a>
+        <a href="load.html" class="a6"><input type="button" value="登录" class="header_right"></a>
+    </header>
+
+    <!-- 轮播图 -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="../imgs/轮播图/1.png" alt=""></div>
+            <div class="swiper-slide"><img src="../imgs/轮播图/2.png" alt=""></div>
+            <div class="swiper-slide"><img src="../imgs/轮播图/3.png" alt=""></div>
+            <div class="swiper-slide"><img src="../imgs/轮播图/4.png" alt=""></div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+
+    <!-- 商品分类 -->
+    <div id="show1">
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/h.png" alt=""></div>
+            <div class="ziti">家居</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/b.png" alt=""></div>
+            <div class="ziti">女装</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/c.png" alt=""></div>
+            <div class="ziti">上衣</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/d.png" alt=""></div>
+            <div class="ziti">鞋子</div>
+        </a>
+    </div>
+    <div id="show2">
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/a.png" alt=""></div>
+            <div class="ziti">套装</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/e.png" alt=""></div>
+            <div class="ziti">裤子</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/f.png" alt=""></div>
+            <div class="ziti">裙子</div>
+        </a>
+        <a href="#" onclick="fun(this)">
+            <div class="tupian"><img src="../imgs/小图标/g.png" alt=""></div>
+            <div class="ziti">男友</div>
+        </a>
+    </div>
+    <!-- 商品展示 -->
+    <section>
+        <!-- <div class="zs">
+            <div class="zs_shang">
+                <img src="../imgs/上衣/21.jpg" alt="">
+            </div>
+            <div class="zs_xia">
+                <div class="zs_xia_top">漂亮的上衣</div>
+                <div class="zs_xia_mid">
+                    <em>￥</em>56
+                </div>
+                <div class="zs_xia_bot">
+                     <button>收藏商品</button>
+                    <button>立即购买</button>
+                </div>
+            </div>
+        </div> -->
+    </section>
+    <!-- 底部 -->
+    <footer>
+        <a href="#" class="one"><label for="#"style="color:orange">首页</label></a>
+        <a href="./Hot_page.html" class="two"><label for="#">热点</label></a>
+        <a href="./Shopping_page.html" class="three"><label for="#">购物车</label></a>
+        <a href="sc_page.html" class="four"><label for="#">收藏</label></a>
+        <a href="register.html" class="five"><label for="#">我的</label></a>
+    </footer>
+</footer>
+</body>
+<script src="../js/swiper.js"></script>
+<script src="../js/home_pag.js"></script>
+
+</html>

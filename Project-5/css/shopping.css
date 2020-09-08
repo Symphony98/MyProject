@@ -1,0 +1,108 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0; }
+
+a {
+  text-decoration: none; }
+
+li {
+  list-style: none; }
+
+img {
+  display: block; }
+
+html {
+  font-size: 15.625vw;
+  height: 100%; }
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+header {
+  height: .78rem;
+  display: flex; }
+  header a {
+    height: .4rem;
+    width: .4rem;
+    margin: 0.15rem 0.1rem 0 0.15rem; }
+    header a .header_left {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+      display: block;
+      background: url(../imgs/小图标/k.png) no-repeat;
+      background-size: cover; }
+  header .header_mid {
+    height: .52rem;
+    width: 4.3rem;
+    margin-top: .1rem;
+    margin-right: .15rem;
+    font-size: .35rem;
+    text-align: center; }
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  background: #ccc;
+  width: 100%; }
+  main .tr1 {
+    background: #fff;
+    margin: .15rem .1rem;
+    height: 1.5rem;
+    position: relative; }
+    main .tr1 .xk {
+      position: absolute;
+      left: 0;
+      top: 0; }
+    main .tr1 .content {
+      float: left;
+      padding-left: .3rem;
+      padding-top: .15rem; }
+      main .tr1 .content .detail {
+        display: flex;
+        height: 100%; }
+        main .tr1 .content .detail .pic {
+          padding-right: .6rem; }
+          main .tr1 .content .detail .pic img {
+            width: 1rem;
+            height: 1rem; }
+        main .tr1 .content .detail .txt {
+          width: 100%;
+          display: flex;
+          flex-direction: column; }
+          main .tr1 .content .detail .txt p {
+            font-size: .2rem;
+            padding-bottom: .1rem; }
+    main .tr1 .price {
+      float: right;
+      font-size: .3rem;
+      padding-right: .5rem; }
+  main .tip {
+    font-size: .38rem;
+    float: right;
+    padding-right: .4rem;
+    padding-top: .2rem;
+    padding-bottom: .6rem; }
+  main .btn {
+    font-size: .26rem;
+    display: flex;
+    margin: .35rem .2rem;
+    border: none;
+    border-radius: .1rem;
+    padding: .12rem; }
+
+footer {
+  height: .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around; }
+  footer a {
+    display: flex;
+    justify-content: space-around; }
+    footer a label {
+      font-size: .3rem; }
+
+/*# sourceMappingURL=shopping.css.map */

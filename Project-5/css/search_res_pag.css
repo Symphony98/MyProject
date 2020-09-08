@@ -1,0 +1,97 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0; }
+
+a {
+  text-decoration: none; }
+
+li {
+  list-style: none; }
+
+img {
+  display: block; }
+
+html {
+  font-size: 15.625vw;
+  height: 100%; }
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+header {
+  height: .78rem;
+  display: flex; }
+  header a {
+    height: .4rem;
+    width: .4rem;
+    margin: 0.15rem 0.1rem 0 0.15rem; }
+    header a .header_left {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+      display: block;
+      background: url(../imgs/小图标/k.png) no-repeat;
+      background-size: cover; }
+  header .header_mid {
+    height: .52rem;
+    width: 4.3rem;
+    margin-top: .1rem;
+    margin-right: .15rem;
+    font-size: .35rem;
+    text-align: center; }
+  header .header_right {
+    height: .52rem;
+    width: .52rem;
+    border-radius: .1rem;
+    border: none;
+    margin-top: .1rem; }
+
+section {
+  flex: 1;
+  overflow-y: auto;
+  background: #ccc;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; }
+  section .zs {
+    width: 3.05rem;
+    padding-left: .1rem;
+    padding-top: .12rem; }
+    section .zs .zs_shang {
+      width: 3.05rem;
+      height: 3.8rem; }
+      section .zs .zs_shang img {
+        width: 3.05rem;
+        height: 3.8rem; }
+    section .zs .zs_xia {
+      padding: .1rem .12rem;
+      background: #fff; }
+      section .zs .zs_xia .zs_xia_top {
+        font-size: .24rem;
+        color: #333333; }
+      section .zs .zs_xia .zs_xia_mid {
+        font-size: .3rem;
+        color: red; }
+      section .zs .zs_xia .zs_xia_bot {
+        display: flex;
+        justify-content: space-around;
+        height: .5rem; }
+        section .zs .zs_xia .zs_xia_bot button {
+          padding: .05rem .2rem;
+          border: none;
+          background: #bee473;
+          width: 1.25rem;
+          text-align: center;
+          font-size: .2rem; }
+        section .zs .zs_xia .zs_xia_bot .goumai {
+          padding: .05rem .2rem;
+          border: none;
+          background: #bee473;
+          width: 1.25rem;
+          text-align: center;
+          font-size: .2rem; }
+
+/*# sourceMappingURL=search_res_pag.css.map */

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Document</title>
+    <script>
+        let clientWidth = document.documentElement.clientWidth
+        let html = document.querySelector('html')
+        html.style.fontSize = clientWidth / 20.7 + 'px'
+    </script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-size: 13.3333333vw;
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .head {
+        height: 1.8rem;
+        position: relative;
+        border: 0.1rem solid #505050;
+    }
+
+    .head h3 {
+        text-align: center;
+    }
+
+    .title {
+        position: absolute;
+        left: 0rem;
+        top: 0rem;
+    }
+
+    main {
+        background-color: #cccccc;
+    }
+
+    .detail img {
+        width: 7rem;
+        height: 7rem;
+    }
+
+    main {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    main .tr1 {
+        display: flex;
+        justify-content: space-around;
+        background: #fff;
+        margin-top: 1rem;
+    }
+
+    .detail {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .tip {
+        float: right;
+    }
+
+    footer {
+        height: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        border: 0.1rem solid black;
+    }
+
+    footer a {
+        color: #ccc;
+    }
+
+    .tip {
+        margin-top: 2rem;
+    }
+
+    .active {
+        color: black;
+    }
+
+    .change {
+        border: none;
+        background-color: blanchedalmond;
+    }
+</style>
+
+<body>
+    <header class="head">
+        <h3>购物车</h3>
+        <h3 class="title">&lt;</h3>
+    </header>
+    <main>
+        <!-- <div class="tr1">
+            <div class="content">
+                <input type="checkbox" id="slect_btn">
+                <div class="detail">
+                    <div class="pic">
+                        <img src="./imgs/套装/11.jpg" alt="">
+                    </div>
+                    <div class="txt">
+                        <br>
+                        <h3>漂亮的衣服</h3>
+                        <br>
+                        <p>颜色：白色</p>
+                        <p>尺码：xl</p>
+                    </div>
+                </div>
+            </div>
+            <div class="price">
+                <br>
+                ￥xx
+            </div>
+        </div>
+        <div class="tr1">
+            <div class="content">
+                <input type="checkbox" id="slect_btn">
+                <div class="detail">
+                    <div class="pic">
+                        <img src="./imgs/上衣/21.jpg" alt="">
+                    </div>
+                    <div class="txt">
+                        <br>
+                        <h3>漂亮的衣服</h3>
+                        <br>
+                        <p>颜色：白色</p>
+                        <p>尺码：xl</p>
+                    </div>
+                </div>
+            </div>
+            <div class="price">
+                <br>
+                ￥xx
+            </div>
+        </div> -->
+
+        <p class="tip">结算:xxx</p>
+    </main>
+    <footer>
+        <a href="" class="foot">首页</a>
+        <a href="" class="foot">热点</a>
+        <a href="" class="foot active">购物车</a>
+        <a href="" class="foot">收藏</a>
+        <a href="" class="foot">我的</a>
+    </footer>
+</body>
+<script>
+    let $ = ele => { return document.querySelector(ele) }
+    let c = ele => { return document.createElement(ele) }
+
+    let ajax_get = function (url, data) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest
+            xhr.open("get", `${url}?${data}`, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    resolve(xhr.responseText)
+                }
+            }
+        })
+    }
+
+    window.onload = function () {
+        let url = "http://10.0.6.228/week8/api/get_cart.php"
+        ajax_get(url).then(function (res) {
+            let json = JSON.parse(res)
+            // console.log(json);
+            creat_table(json)
+        })
+    }
+    let creat_table = function (arr) {
+        $("main").innerHTML = ""
+        let num = 0
+        for (let item of arr) {
+            let div = c("div")
+            div.className = "tr1"
+            div.innerHTML = `
+                <div class="content">
+                    <div class="detail">
+                        <div class="pic">
+                            <img src="http://10.0.6.228/week8/img/${item.product_img_path}" alt="">
+                        </div>
+                        <div class="txt">
+                            <br>
+                            <h3>${item.product_name}</h3>
+                            <br>
+                            <p>类别：${item.product_category}</p>
+                            <p>数量：${item.product_number}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="price">
+                    <br>
+                    ￥${item.product_price}
+                </div>
+            `            
+            $("main").appendChild(div)
+            num += item.product_price * item.product_number
+        }
+        let div = c("div")
+        div.className = "tip"
+        div.innerText = `结算：${num}`
+
+        $("main").appendChild(div)
+    }
+</script>
+
+</html>
